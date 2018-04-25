@@ -1,3 +1,7 @@
+install.packages("shiny")
 install.packages("shinydashboard")
-install.packages("markdown")
 install.packages("shinycssloaders")
+install.packages("markdown")
+install.packages("tidyverse")
+install.packages("lubridate")
+install.packages("strigr")
