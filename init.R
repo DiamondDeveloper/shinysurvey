@@ -1,5 +1,4 @@
 install.packages("Rcpp")
-install.packages("shiny")
 install.packages("shinydashboard")
 install.packages("shinycssloaders")
 install.packages("markdown")
