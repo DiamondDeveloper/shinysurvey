@@ -1,6 +1,6 @@
-FROM rocker/shiny
+FROM r-base:latest
 
-MAINTAINER Vojtech Sedlak (vojtech@mozillafoundation.org)
+LABEL maintainers="Vojtech Sedlak (vojtech@mozillafoundation.org), Christopher DeCairos (cade@mozillafoundation.org)"
 
 # install R package dependencies
 RUN apt-get update && apt-get install -y \
@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libxml2 \
     libxml2-dev \
+    nginx \
     ## clean up
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/
@@ -23,8 +24,8 @@ RUN R -e "install.packages(c('tidyverse', 'stringr', 'ggthemes', 'scales','shiny
     ## clean up
     && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
-COPY . /srv/shiny-server/shinysurvey/
+COPY . /app/
 
-RUN cp /srv/shiny-server/shinysurvey/shiny-server.conf /etc/shiny-server/shiny-server.conf
+WORKDIR /app
 
-CMD ["/srv/shiny-server/shinysurvey/shiny-server.sh"]
+CMD ["/app/shiny-server.sh"]

@@ -1,13 +1,19 @@
 #!/bin/sh
 
 # Make sure the directory for individual app logs exists
-mkdir -p /var/log/shiny-server
 
-sed -i -e "s/\$PORT/$PORT/g" /etc/shiny-server/shiny-server.conf
+export R_PORT=`expr $PORT + 1`
 
-USER=`whoami`
+sed -i -e "s/\$PORT/$PORT/g" /app/shiny-server.conf
+sed -i -e "s/\$R_PORT/$R_PORT/g" /app/shiny-server.conf
+sed -i -e "s/\$HOSTNAME/$HOSTNAME/g" /app/shiny-server.conf
 
-mkhomedir_helper $USER
-sed -i -e "s/\$USER/$USER/g" /etc/shiny-server/shiny-server.conf
+ln -s /app/shiny-server.conf /etc/nginx/sites-enabled/shiny-server.conf
 
-exec shiny-server 2>&1
+echo "Starting NGINX"
+
+rm /etc/nginx/sites-enabled/default
+
+service nginx start
+
+exec /usr/bin/R --no-save --quiet --slave --file=/app/run.R
