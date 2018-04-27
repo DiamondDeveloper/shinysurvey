@@ -1,7 +1,0 @@
-install.packages("Rcpp")
-install.packages("shinydashboard")
-install.packages("shinycssloaders")
-install.packages("markdown")
-install.packages("xml2")
-install.packages("tidyverse")
-install.packages("lubridate")
